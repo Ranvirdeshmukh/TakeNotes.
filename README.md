@@ -8,7 +8,7 @@ https://frontend-starterpack-ranvirdeshmukh.onrender.com
 
 
 ## What Worked Well
-
+Completed all the requirements and setup an timer.
 
 ## What Didn't
 
