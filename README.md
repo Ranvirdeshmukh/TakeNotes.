@@ -11,7 +11,12 @@ https://frontend-starterpack-ranvirdeshmukh.onrender.com
 Completed all the requirements and setup an timer.
 
 ## What Didn't
+i did everything required for this lab
 
-## Extra Credit
 
-## Screenshots
+##
+
+![alt text](<screenshots/Screenshot 2024-04-11 at 7.44.29 PM.png>)
+
+
+
