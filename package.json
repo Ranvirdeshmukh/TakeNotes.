@@ -22,6 +22,9 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3"
   }
 }

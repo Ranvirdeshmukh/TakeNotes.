@@ -1,26 +1,47 @@
 {
-    "extends": "airbnb",
+    "extends": [
+      "airbnb",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
     "env": {
-        "browser": true,
-        "es6": true
+      "browser": true,
+      "es6": true,
+      "node": true
     },
     "parserOptions": {
-        "ecmaVersion": 2023
+      "ecmaVersion": 2023,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
     },
     "rules": {
-        "strict": 0,
-        "quotes": [2, "single"],
-        "no-else-return": 0,
-        "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
-        "no-console": 0,
-        "import/no-unresolved": [2, { "caseSensitive": false } ],
-        "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
-        "no-underscore-dangle": 0,
-        "arrow-body-style": 0,
-        "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
-        "one-var-declaration-per-line": ["error", "initializations"],
-        "max-len": ["error", 200],
-        "no-extra-parens": 0,
-        "no-restricted-syntax": [0, "DebuggerStatement"],
-        "no-debugger": "warn"
-    }}
+      "strict": 0,
+      "quotes": [2, "single"],
+      "no-else-return": 0,
+      "new-cap": ["error", { "capIsNewExceptions": ["Router"] }],
+      "no-console": 0,
+      "import/no-unresolved": [2, { "caseSensitive": false }],
+      "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+      "no-underscore-dangle": 0,
+      "arrow-body-style": 0,
+      "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
+      "one-var-declaration-per-line": ["error", "initializations"],
+      "max-len": ["error", 200],
+      "no-extra-parens": 0,
+      "no-restricted-syntax": [0, "DebuggerStatement"],
+      "no-debugger": "warn",
+      "react/react-in-jsx-scope": "off" // Not needed for React 17+
+    },
+    "plugins": [
+      "react",
+      "react-hooks"
+    ]
+  }
+  
