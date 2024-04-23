@@ -1,53 +1,49 @@
-import {
-  BrowserRouter, Routes, Route, NavLink,
-} from 'react-router-dom';
-
-import { createRoot } from 'react-dom/client';
-import React from 'react';
-
-function Nav() {
-  return (
-    <nav>
-      <ul>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/about">About</NavLink></li>
-        <li><NavLink to="/test/id1">Test ID1</NavLink></li>
-        <li><NavLink to="/test/id2">Test ID2</NavLink></li>
-      </ul>
-    </nav>
-  );
-}
-
-function Welcome() {
-  return <div>Welcome</div>;
-}
-
-function About() {
-  return <div>All there is to know about me</div>;
-}
-function Test() {
-  return <div>Test</div>;
-}
-
-function FallBack() {
-  return <div>URL Not Found</div>;
-}
+// App.jsx
+import React, { useState } from 'react';
+import Note from './note';
 
 function App() {
+  const [notes, setNotes] = useState({});
+
+  const addNote = note => {
+    const id = Date.now(); // A simple way to get a unique id
+    setNotes(prevNotes => ({
+      ...prevNotes,
+      [id]: { ...note, id },
+    }));
+  };
+
+  const deleteNote = id => {
+    setNotes(prevNotes => {
+      const newNotes = { ...prevNotes };
+      delete newNotes[id];
+      return newNotes;
+    });
+  };
+
+  const updateNote = (id, updatedFields) => {
+    setNotes(prevNotes => ({
+      ...prevNotes,
+      [id]: { ...prevNotes[id], ...updatedFields },
+    }));
+  };
+
   return (
-    <BrowserRouter>
-      <div>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/test/:id" element={<Test />} />
-          <Route path="*" element={<FallBack />} />
-        </Routes>
+    <div>
+      {/* Placeholder for adding a note, for demonstration purposes */}
+      <button onClick={() => addNote({
+        title: 'New Note', text: 'Type here...', x: 100, y: 100, zIndex: 1,
+      })}
+      >
+        Add Note
+      </button>
+      <div className="notes-container">
+        {Object.entries(notes).map(([id, note]) => (
+          <Note key={id} note={note} deleteNote={deleteNote} updateNote={updateNote} />
+        ))}
       </div>
-    </BrowserRouter>
+    </div>
   );
 }
 
-const root = createRoot(document.getElementById('main'));
-root.render(<App />);
+export default App;
