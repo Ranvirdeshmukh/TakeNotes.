@@ -11,3 +11,61 @@
 }
 
   
+/* App.css or another CSS file */
+.note {
+  position: absolute;
+  border: 1px solid black;
+  padding: 10px;
+  background-color: white;
+  cursor: move; /* Indicates the note is movable */
+}
+
+.note.editing {
+  background-color: yellow; /* Example style when editing a note */
+}
+
+/* Add these styles to your CSS file */
+.react-resizable-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #000000;
+  border: 2px solid #ddd;
+}
+
+.react-resizable-handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: se-resize; /* Cursor seen when hovering over the bottom-right corner */
+}
+
+/* Toolbar styles */
+.toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px; /* Reduced height */
+  margin-bottom: 20px; /* Space below the toolbar */
+  border-radius: 10px; /* Rounded corners */
+  padding: 5px 10px; /* Padding for aesthetic spacing */
+  background-color: #f3f3f3; /* Light grey background */
+}
+
+.toolbar input,
+.toolbar button {
+  height: 100%; /* Match height of the toolbar */
+  border-radius: 5px; /* Slightly rounded corners for input and button */
+}
+
+.toolbar input {
+  margin-right: 10px;
+  width: 300px; /* Adjust width as needed */
+  border: 1px solid #ccc; /* Subtle border for the input */
+}
+
+.toolbar button {
+  cursor: pointer; /* Improves UX by showing a pointer cursor on hover */
+  background-color: #007bff; /* Bootstrap primary color for example */
+  color: white; /* White text color */
+  border: none; /* No border for the button */
+}

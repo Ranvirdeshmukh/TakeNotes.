@@ -1,23 +1,32 @@
-// App.jsx
 import React, { useState } from 'react';
 import Note from './note';
 
 function App() {
   const [notes, setNotes] = useState({});
+  const [newNoteTitle, setNewNoteTitle] = useState('');
 
-  const addNote = note => {
-    const id = Date.now(); // A simple way to get a unique id
+  const addNote = () => {
+    const id = Date.now();
+    const newNote = {
+      id,
+      title: newNoteTitle || 'New Note', // Use the input title or default to 'New Note'
+      text: 'Note content...',
+      x: 0, // Default position
+      y: 0, // Default position
+      zIndex: 100, // Starting zIndex, adjust as needed
+    };
     setNotes(prevNotes => ({
       ...prevNotes,
-      [id]: { ...note, id },
+      [id]: newNote,
     }));
+    setNewNoteTitle(''); // Clear the input field after adding a note
   };
 
-  const deleteNote = id => {
+  const deleteNote = idToDelete => {
     setNotes(prevNotes => {
-      const newNotes = { ...prevNotes };
-      delete newNotes[id];
-      return newNotes;
+      const updatedNotes = { ...prevNotes };
+      delete updatedNotes[idToDelete];
+      return updatedNotes;
     });
   };
 
@@ -30,16 +39,29 @@ function App() {
 
   return (
     <div>
-      {/* Placeholder for adding a note, for demonstration purposes */}
-      <button onClick={() => addNote({
-        title: 'New Note', text: 'Type here...', x: 100, y: 100, zIndex: 1,
-      })}
+      <div
+        className="toolbar"
+        style={{
+          display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px', marginBottom: '20px',
+        }}
       >
-        Add Note
-      </button>
+        <input
+          type="text"
+          placeholder="Enter note title..."
+          value={newNoteTitle}
+          onChange={e => setNewNoteTitle(e.target.value)}
+          style={{ marginRight: '10px', width: '300px', height: '100%' }} // Match the height of the toolbar
+        />
+        <button style={{ height: '100%' }} onClick={addNote}>Add Note</button>
+      </div>
       <div className="notes-container">
         {Object.entries(notes).map(([id, note]) => (
-          <Note key={id} note={note} deleteNote={deleteNote} updateNote={updateNote} />
+          <Note
+            key={id}
+            note={note}
+            deleteNote={() => deleteNote(id)}
+            updateNote={updateNote}
+          />
         ))}
       </div>
     </div>
