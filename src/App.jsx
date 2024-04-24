@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Note from './note';
+import { getNotes } from './services/datastore';
 
 function App() {
   const [notes, setNotes] = useState({});
   const [newNoteTitle, setNewNoteTitle] = useState('');
+
+  useEffect(() => {
+    getNotes(fetchedNotes => {
+      console.log('Fetched notes:', fetchedNotes); // Check what you receive exactly
+      if (fetchedNotes) {
+        setNotes(fetchedNotes);
+      } else {
+        setNotes({});
+      }
+    });
+  }, []);
 
   const addNote = () => {
     const id = Date.now();

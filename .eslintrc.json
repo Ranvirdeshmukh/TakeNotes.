@@ -27,7 +27,6 @@
     "no-else-return": 0,
     "new-cap": ["error", { "capIsNewExceptions": ["Router"] }],
     "no-console": 0,
-    "import/no-unresolved": [2, { "caseSensitive": false }],
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
     "no-underscore-dangle": 0,
     "arrow-body-style": 0,
@@ -40,7 +39,10 @@
     "react/react-in-jsx-scope": "off", // Not needed for React 17+
     "react/button-has-type": "off", // Disable button type rule
     "arrow-parens": ["error", "as-needed"], // Arrow functions can omit parens when they have exactly one parameter
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false, "packageDir": "./"}],
+    "import/no-unresolved": [2, { "ignore": ["^firebase/compat/app$", "^firebase/compat/database$"] }]
+
   },
   "plugins": [
     "react",

@@ -10,7 +10,11 @@
   background-color: white;
 }
 
-  
+.note-header {
+  cursor: pointer; 
+  padding: 10px; 
+}
+
 /* App.css or another CSS file */
 .note {
   position: absolute;
