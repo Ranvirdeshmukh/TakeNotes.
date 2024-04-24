@@ -10,7 +10,11 @@ function App() {
     getNotes(fetchedNotes => {
       console.log('Fetched notes:', fetchedNotes);
       if (fetchedNotes) {
-        setNotes(fetchedNotes);
+        const newNotesState = fetchedNotes.reduce((acc, note) => {
+          acc[note.id] = note;
+          return acc;
+        }, {});
+        setNotes(newNotesState);
       } else {
         setNotes({});
       }
@@ -18,7 +22,7 @@ function App() {
   }, []);
 
   const addNote = () => {
-    const id = Date.now();
+    const id = Date.now().toString(); // Ensure it's a string if your keys are strings
     const newNote = {
       id,
       title: newNoteTitle.trim() || 'New Note',
@@ -28,9 +32,12 @@ function App() {
       zIndex: 100,
     };
     addNoteToFirebase(newNote);
+    setNotes(prevNotes => ({
+      ...prevNotes,
+      [id]: newNote,
+    }));
     setNewNoteTitle('');
   };
-
   const deleteNote = idToDelete => {
     setNotes(prevNotes => {
       const updatedNotes = { ...prevNotes };

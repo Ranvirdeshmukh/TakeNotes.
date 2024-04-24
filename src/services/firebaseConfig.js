@@ -21,8 +21,12 @@ const database = firebase.database();
 // Function to get notes
 export const getNotes = callback => {
   database.ref('notes').on('value', snapshot => {
-    const notes = snapshot.val();
-    callback(notes);
+    const notesObj = snapshot.val();
+    const notesArray = notesObj ? Object.keys(notesObj).map(key => ({
+      ...notesObj[key],
+      id: key,
+    })) : [];
+    callback(notesArray);
   });
 };
 

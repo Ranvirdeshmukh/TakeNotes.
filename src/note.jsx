@@ -47,7 +47,7 @@ function Note({ note, deleteNote, updateNote }) {
 
 Note.propTypes = {
   note: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired, // Changed from number to string
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     x: PropTypes.number.isRequired,
