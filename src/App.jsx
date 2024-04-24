@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Note from './note';
-import { getNotes } from './services/datastore';
+import { getNotes, addNote as addNoteToFirebase } from './services/firebaseConfig';
 
 function App() {
   const [notes, setNotes] = useState({});
@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     getNotes(fetchedNotes => {
-      console.log('Fetched notes:', fetchedNotes); // Check what you receive exactly
+      console.log('Fetched notes:', fetchedNotes);
       if (fetchedNotes) {
         setNotes(fetchedNotes);
       } else {
@@ -21,17 +21,14 @@ function App() {
     const id = Date.now();
     const newNote = {
       id,
-      title: newNoteTitle || 'New Note', // Use the input title or default to 'New Note'
+      title: newNoteTitle.trim() || 'New Note',
       text: 'Note content...',
-      x: 0, // Default position
-      y: 0, // Default position
-      zIndex: 100, // Starting zIndex, adjust as needed
+      x: 0,
+      y: 0,
+      zIndex: 100,
     };
-    setNotes(prevNotes => ({
-      ...prevNotes,
-      [id]: newNote,
-    }));
-    setNewNoteTitle(''); // Clear the input field after adding a note
+    addNoteToFirebase(newNote);
+    setNewNoteTitle('');
   };
 
   const deleteNote = idToDelete => {
@@ -49,6 +46,13 @@ function App() {
     }));
   };
 
+  // Extra credit : added a feature of the where the new note is created when the user clicks in enter on his keyboard.
+  const handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      addNote();
+    }
+  };
+
   return (
     <div>
       <div
@@ -62,7 +66,8 @@ function App() {
           placeholder="Enter note title..."
           value={newNoteTitle}
           onChange={e => setNewNoteTitle(e.target.value)}
-          style={{ marginRight: '10px', width: '300px', height: '100%' }} // Match the height of the toolbar
+          onKeyPress={handleKeyPress} // Add the key press listener
+          style={{ marginRight: '10px', width: '300px', height: '100%' }}
         />
         <button style={{ height: '100%' }} onClick={addNote}>Add Note</button>
       </div>
