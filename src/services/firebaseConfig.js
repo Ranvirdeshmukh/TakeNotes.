@@ -56,5 +56,9 @@ export const updateNoteInFirebase = (id, note) => {
   const noteRef = database.ref(`notes/${id}`);
   noteRef.update(note);
 };
+export const deleteNoteFromFirebase = id => {
+  database.ref(`notes/${id}`).remove();
+};
+
 // Export the Firebase app instance
 export default app;
