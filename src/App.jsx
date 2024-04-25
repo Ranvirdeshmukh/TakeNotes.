@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Note from './note';
-import { getNotes, addNote as addNoteToFirebase } from './services/firebaseConfig';
+import { getNotes, addNote as addNoteToFirebase, updateNoteInFirebase } from './services/firebaseConfig';
 
 function App() {
   const [notes, setNotes] = useState({});
@@ -22,14 +22,14 @@ function App() {
   }, []);
 
   const addNote = () => {
-    const id = Date.now().toString(); // Ensure it's a string if your keys are strings
+    const id = Date.now().toString(); // Using string for consistency in IDs
     const newNote = {
       id,
       title: newNoteTitle.trim() || 'New Note',
       text: 'Note content...',
-      x: 0,
-      y: 0,
-      zIndex: 100,
+      x: 100, // Default position, you can make this dynamic or a calculated initial position
+      y: 100, // Default position
+      zIndex: 100, // Default zIndex, can be dynamically adjusted based on the number of notes
     };
     addNoteToFirebase(newNote);
     setNotes(prevNotes => ({
@@ -37,6 +37,17 @@ function App() {
       [id]: newNote,
     }));
     setNewNoteTitle('');
+  };
+
+  const updateNote = (id, updatedFields) => {
+    setNotes(prevNotes => {
+      const updatedNote = { ...prevNotes[id], ...updatedFields };
+      updateNoteInFirebase(id, updatedNote); // This should handle sending updates to Firebase
+      return {
+        ...prevNotes,
+        [id]: updatedNote,
+      };
+    });
   };
   const deleteNote = idToDelete => {
     setNotes(prevNotes => {
@@ -46,12 +57,12 @@ function App() {
     });
   };
 
-  const updateNote = (id, updatedFields) => {
-    setNotes(prevNotes => ({
-      ...prevNotes,
-      [id]: { ...prevNotes[id], ...updatedFields },
-    }));
-  };
+  // const updateNote = (id, updatedFields) => {
+  //   setNotes(prevNotes => ({
+  //     ...prevNotes,
+  //     [id]: { ...prevNotes[id], ...updatedFields },
+  //   }));
+  // };
 
   // Extra credit : added a feature of the where the new note is created when the user clicks in enter on his keyboard.
   const handleKeyPress = e => {

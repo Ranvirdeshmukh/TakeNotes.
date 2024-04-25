@@ -46,5 +46,15 @@ export const deleteNote = id => {
   database.ref(`notes/${id}`).remove();
 };
 
+// Function to add a new note
+export const addNoteToFirebase = note => {
+  const noteRef = database.ref('notes').push();
+  noteRef.set(note);
+};
+
+export const updateNoteInFirebase = (id, note) => {
+  const noteRef = database.ref(`notes/${id}`);
+  noteRef.update(note);
+};
 // Export the Firebase app instance
 export default app;

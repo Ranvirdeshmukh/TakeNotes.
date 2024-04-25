@@ -15,11 +15,17 @@ function Note({ note, deleteNote, updateNote }) {
   };
 
   const handleResize = (event, { size }) => setNoteSize(size);
-  const handleDrag = (e, data) => updateNote(note.id, { x: data.x, y: data.y });
+  const handleDrag = (e, data) => {
+    updateNote(note.id, { x: data.x, y: data.y }); // Update position in real-time
+  };
   const toggleExpandNote = () => setNoteSize(prevSize => (prevSize.width === 400 ? { width: 170, height: 170 } : { width: 400, height: 400 }));
 
   return (
-    <Draggable handle=".note-header" defaultPosition={{ x: note.x, y: note.y }} onDrag={handleDrag}>
+    <Draggable
+      handle=".note-header"
+      defaultPosition={{ x: note.x, y: note.y }}
+      onStop={handleDrag}
+    >
       <Resizable width={noteSize.width} height={noteSize.height} onResize={handleResize} minConstraints={[170, 170]}>
         <div className="note" style={{ zIndex: note.zIndex, width: noteSize.width, height: noteSize.height }}>
           <div className="note-controls" style={{ position: 'absolute', top: 0, right: 0 }}>
