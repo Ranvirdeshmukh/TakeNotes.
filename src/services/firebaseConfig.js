@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import 'firebase/compat/analytics';
+import 'firebase/compat/auth'; // implementation of the firebase authentication services
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB5fmXlIwCnnRLwnkMGOsLBbo37NH2nDMY',
@@ -19,17 +20,21 @@ firebase.analytics();
 
 const database = firebase.database();
 // Function to get notes
-export const getNotes = callback => {
-  database.ref('notes').on('value', snapshot => {
-    const notesObj = snapshot.val();
-    const notesArray = notesObj ? Object.keys(notesObj).map(key => ({
-      ...notesObj[key],
-      id: key,
-    })) : [];
-    callback(notesArray);
+export const getNotes = async callback => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      const userId = user.uid;
+      database.ref(`notes/${userId}`).on('value', snapshot => {
+        const notesObj = snapshot.val();
+        const notesArray = notesObj ? Object.keys(notesObj).map(key => ({
+          ...notesObj[key],
+          id: key,
+        })) : [];
+        callback(notesArray);
+      });
+    }
   });
 };
-
 // Function to add a new note
 export const addNote = note => {
   const noteRef = database.ref('notes').push();
@@ -47,17 +52,33 @@ export const deleteNote = id => {
 };
 
 // Function to add a new note
-export const addNoteToFirebase = note => {
-  const noteRef = database.ref('notes').push();
-  noteRef.set(note);
+// Add a new note for the current user
+export const addNoteToFirebase = async note => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    const userId = user.uid;
+    const noteRef = database.ref(`notes/${userId}`).push();
+    noteRef.set(note);
+  }
 };
 
-export const updateNoteInFirebase = (id, note) => {
-  const noteRef = database.ref(`notes/${id}`);
-  noteRef.update(note);
+// Update a note for the current user
+export const updateNoteInFirebase = async (id, note) => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    const userId = user.uid;
+    const noteRef = database.ref(`notes/${userId}/${id}`);
+    noteRef.update(note);
+  }
 };
-export const deleteNoteFromFirebase = id => {
-  database.ref(`notes/${id}`).remove();
+
+// Delete a note for the current user
+export const deleteNoteFromFirebase = async id => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    const userId = user.uid;
+    database.ref(`notes/${userId}/${id}`).remove();
+  }
 };
 
 // Export the Firebase app instance

@@ -2,29 +2,37 @@
 //
 
 import React, { useState, useEffect } from 'react';
-import Note from './note';
-import {
+
+import firebase, {
   getNotes, addNote as addNoteToFirebase, updateNoteInFirebase, deleteNoteFromFirebase,
 } from './services/firebaseConfig';
 
+import Note from './note';
+import SignIn from './SignIn';
+
 function App() {
   const [notes, setNotes] = useState({});
-  const [history, setHistory] = useState([]); // History stack for undo feature
+  const [user, setUser] = useState(null); // New state for user authentication
   const [newNoteTitle, setNewNoteTitle] = useState('');
+  const [history, setHistory] = useState([]); // History stack for undo feature
 
   useEffect(() => {
-    getNotes(fetchedNotes => {
-      if (fetchedNotes) {
-        const newNotesState = fetchedNotes.reduce((acc, note) => {
-          acc[note.id] = note;
-          return acc;
-        }, {});
-        setNotes(newNotesState);
-      } else {
-        setNotes({});
-      }
-    });
-  }, []);
+    firebase.auth().onAuthStateChanged(setUser); // Listen for user state changes
+
+    if (user) {
+      getNotes(fetchedNotes => {
+        if (fetchedNotes) {
+          const newNotesState = fetchedNotes.reduce((acc, note) => {
+            acc[note.id] = note;
+            return acc;
+          }, {});
+          setNotes(newNotesState);
+        } else {
+          setNotes({});
+        }
+      });
+    }
+  }, [user]);
 
   const saveToHistory = notesState => {
     setHistory(prevHistory => [...prevHistory, notesState]);
@@ -41,6 +49,7 @@ function App() {
   };
 
   const addNote = () => {
+    if (!user) return;
     saveToHistory({ ...notes });
     const id = Date.now().toString();
     const newNote = {
@@ -57,6 +66,7 @@ function App() {
   };
 
   const updateNote = (id, updatedFields) => {
+    if (!user) return;
     saveToHistory({ ...notes });
     const updatedNote = { ...notes[id], ...updatedFields };
     updateNoteInFirebase(id, updatedNote);
@@ -64,6 +74,7 @@ function App() {
   };
 
   const deleteNote = idToDelete => {
+    if (!user) return;
     saveToHistory({ ...notes });
     deleteNoteFromFirebase(idToDelete);
     setNotes(prevNotes => {
@@ -73,30 +84,41 @@ function App() {
     });
   };
 
+  const handleSignOut = () => {
+    firebase.auth().signOut(); // Sign out function
+  };
+
   return (
     <div>
-      <div className="toolbar">
-        <input
-          type="text"
-          placeholder="Enter note title..."
-          value={newNoteTitle}
-          onChange={e => setNewNoteTitle(e.target.value)}
-          onKeyPress={e => e.key === 'Enter' && addNote()}
-          style={{ marginRight: '10px', width: '300px' }}
-        />
-        <button onClick={addNote}>Add Note</button>
-        <button onClick={undo} disabled={history.length === 0}>Undo</button>
-      </div>
-      <div className="notes-container">
-        {Object.entries(notes).map(([id, note]) => (
-          <Note
-            key={id}
-            note={note}
-            deleteNote={() => deleteNote(id)}
-            updateNote={updateNote}
-          />
-        ))}
-      </div>
+      {!user ? (
+        <SignIn />
+      ) : (
+        <>
+          <div className="toolbar">
+            <input
+              type="text"
+              placeholder="Enter note title..."
+              value={newNoteTitle}
+              onChange={e => setNewNoteTitle(e.target.value)}
+              onKeyPress={e => e.key === 'Enter' && addNote()}
+              style={{ marginRight: '10px', width: '300px' }}
+            />
+            <button onClick={addNote}>Add Note</button>
+            <button onClick={undo} disabled={history.length === 0}>Undo</button>
+            <button onClick={handleSignOut}>Sign Out</button>
+          </div>
+          <div className="notes-container">
+            {Object.entries(notes).map(([id, note]) => (
+              <Note
+                key={id}
+                note={note}
+                deleteNote={() => deleteNote(id)}
+                updateNote={updateNote}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
