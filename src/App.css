@@ -1,4 +1,13 @@
 /* App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #A6A6A6; /* Set the background color for the entire screen */
+  color: #333; /* Default text color for better readability on the gray background */
+  font-family: Arial, sans-serif; /* Optional: Set a global font-family */
+}
+
 .note-color-1 {
   background-color: #ffadad; /* Light red */
 }
@@ -63,14 +72,15 @@
 /* Enhanced Toolbar styles for larger and more spaced layout */
 .toolbar {
   display: flex;
-  justify-content: space-between; /* Evenly distribute space between elements */
+  justify-content: space-between;
   align-items: center;
-  height: 80px; /* Further increased height for greater prominence */
-  padding: 0 30px; /* Increased horizontal padding for a broader feel */
-  background-color: #f3f3f3; /* Maintains light grey background */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15); /* Slightly stronger shadow for more depth */
-  margin-bottom: 50px; /* Larger margin bottom for increased space below the toolbar */
-  border-radius: 0; /* Maintains absence of rounded corners */
+  height: 80px;
+  padding: 0 30px;
+  background-color: #A6A6A6;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  margin-top: 70px; /* Increased top margin to push the toolbar down */
+  margin-bottom: 50px;
+  border-radius: 0;
 }
 
 .toolbar input,
