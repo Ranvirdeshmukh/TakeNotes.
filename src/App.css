@@ -73,3 +73,73 @@
   color: white; /* White text color */
   border: none; /* No border for the button */
 }
+
+.sign-in-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Soft gray background */
+  overflow: auto;
+  
+}
+
+.logo-container {
+  position: absolute;
+  top: 40%; /* Adjusted for aesthetic balance */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.form-container {
+  position: absolute;
+  top: 60%; /* Adjusted to maintain relative spacing with logo */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 12px; /* More pronounced rounded corners for modern feel */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased gap for better spacing */
+  width: 350px; /* Increased width for better control */
+  z-index: 3;
+}
+
+.input {
+  padding: 15px; 
+  width: 100%; 
+  border: 2px solid #ccc; /* Defined border for better visibility */
+  border-radius: 8px; /* Rounded borders */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* More pronounced inset shadow */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.input:focus {
+  border-color: #5E17EB; /* Highlight focus with a vibrant color */
+  outline: none; /* Remove default focus outline */
+}
+
+.button-container button {
+  background-color: #5E17EB; /* Adjusted color */
+  color: white;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  padding: 15px; /* Increased padding for better touch area */
+}
+
+.button-container button:hover {
+  background-color: #878787; /* Adjusted hover color for feedback */
+}
+
+.error-message {
+  color: #ff6b6b; /* Soft red for errors */
+  text-align: center;
+  font-size: 0.9em;
+}
+
