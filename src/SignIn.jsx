@@ -42,7 +42,7 @@ function SignIn() {
   return (
     <div className="sign-in-container">
       <div className="logo-container">
-        {/* Assuming you have a logo.png in your public folder */}
+        {/* Logo */}
         <img src="logo.png" alt="Logo" />
       </div>
       <div className="form-container">
