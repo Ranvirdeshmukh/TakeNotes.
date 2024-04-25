@@ -1,32 +1,49 @@
 /* App.css */
-.notes-container {
-  position: relative;
+.note-color-1 {
+  background-color: #ffadad; /* Light red */
+}
+
+.note-color-2 {
+  background-color: #ffd6a5; /* Light orange */
+}
+
+.note-color-3 {
+  background-color: #fdffb6; /* Light yellow */
+}
+
+.note-color-4 {
+  background-color: #caffbf; /* Light green */
+}
+
+.note-color-5 {
+  background-color: #9bf6ff; /* Light blue */
+}
+
+.note-color-6 {
+  background-color: #a0c4ff; /* Light purple */
 }
 
 .note {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid #ccc; /* Softer border color */
   padding: 10px;
-  background-color: white;
+  border-radius: 8px; /* Rounded corners for a smoother look */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+  cursor: move; /* Indicates the note is movable */
+  overflow: hidden; /* Ensures no overflow of content */
 }
 
 .note-header {
-  cursor: pointer; 
-  padding: 10px; 
-}
-
-/* App.css or another CSS file */
-.note {
-  position: absolute;
-  border: 1px solid black;
+  cursor: pointer;
   padding: 10px;
-  background-color: white;
-  cursor: move; /* Indicates the note is movable */
+  background-color: rgba(0,0,0,0.05); /* Slight overlay in the header for distinction */
+  font-weight: bold; /* Making the header text bold */
 }
 
 .note.editing {
-  background-color: yellow; /* Example style when editing a note */
+  background-color: #fefcbf; /* Soft editing mode color */
 }
+
 
 /* Add these styles to your CSS file */
 .react-resizable-handle {
@@ -43,36 +60,60 @@
   cursor: se-resize; /* Cursor seen when hovering over the bottom-right corner */
 }
 
-/* Toolbar styles */
+/* Enhanced Toolbar styles for larger and more spaced layout */
 .toolbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Evenly distribute space between elements */
   align-items: center;
-  height: 20px; /* Reduced height */
-  margin-bottom: 20px; /* Space below the toolbar */
-  border-radius: 10px; /* Rounded corners */
-  padding: 5px 10px; /* Padding for aesthetic spacing */
-  background-color: #f3f3f3; /* Light grey background */
+  height: 80px; /* Further increased height for greater prominence */
+  padding: 0 30px; /* Increased horizontal padding for a broader feel */
+  background-color: #f3f3f3; /* Maintains light grey background */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15); /* Slightly stronger shadow for more depth */
+  margin-bottom: 50px; /* Larger margin bottom for increased space below the toolbar */
+  border-radius: 0; /* Maintains absence of rounded corners */
 }
 
 .toolbar input,
 .toolbar button {
-  height: 100%; /* Match height of the toolbar */
-  border-radius: 5px; /* Slightly rounded corners for input and button */
+  height: 50px; /* Increased height for inputs and buttons for easier interaction */
+  border-radius: 4px; /* Mildly pronounced rounded corners */
 }
 
 .toolbar input {
-  margin-right: 10px;
-  width: 300px; /* Adjust width as needed */
-  border: 1px solid #ccc; /* Subtle border for the input */
+  margin-right: 15px;
+  width: auto; /* Auto width to adjust responsively */
+  flex-grow: 1; /* Input grows to fill available space */
+  border: 2px solid #ccc; /* Slightly thicker border for better visual structure */
+  font-size: 16px; /* Larger font size for readability */
 }
 
 .toolbar button {
-  cursor: pointer; /* Improves UX by showing a pointer cursor on hover */
-  background-color: #007bff; /* Bootstrap primary color for example */
-  color: white; /* White text color */
-  border: none; /* No border for the button */
+  margin-left: 10px; /* Add space between buttons */
+  cursor: pointer;
+  background-color: #5E17EB; /* Original button color */
+  color: white;
+  border: none;
+  padding: 0 25px; /* Increased padding for a fuller button appearance */
+  font-weight: bold;
+  text-transform: uppercase; /* Text styling to reflect an authoritative look */
+  letter-spacing: 1px; /* Slight spacing between letters for aesthetic purposes */
+  transition: background-color 0.3s; /* Smooth transition for color change */
 }
+
+.toolbar button:hover {
+  background-color: #44318D; /* Darker shade for hover effect */
+}
+
+/* Additional styling to ensure visual separation between toolbar and subsequent content */
+.toolbar::after {
+  content: '';
+  display: block;
+  height: 2px; /* Thicker line for a clearer division */
+  background-color: #ddd;
+  width: 100%;
+}
+
+
 
 .sign-in-container {
   position: relative;
